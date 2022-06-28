@@ -1,3 +1,9 @@
+<?php session_start(); 
+include('db.php');
+include('CategoryController.php');
+?>
+
+
 <?php    include("admin_header.php"); ?>
 
 
@@ -22,34 +28,86 @@
                                 <div class="card-body">
                                     <h4 class="card-title">Add Brand  <i class="fas fa-angle-double-right"></i> </h4>
                                     
+ <?php
+                    if(isset($_SESSION['message']))
+                    {
+                        echo "<h5>".$_SESSION['message']."</h5>";
+                        unset($_SESSION['message']);
+                    }
+                ?>
 
-                                    <form>
+
+
+                                        <?php
+
+                                            $categories = new CategoryController;
+                                             $results = $categories->index();
+
+                                         ?>
+                                    <form action="code_addsubcategory.php" method="POST">
                                         <div class="form-group">
-                                            <label for="simpleinput">Text</label>
-                                            <input type="text"  class="form-control" placeholder="Enter Category Name">
+                                            <label for="simpleinput">Brand Name</label>
+                                            <input type="text" name="b_name" class="form-control" placeholder="Enter Brand Name">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="example-password">Password</label>
-                                            <input type="text" placeholder="Enter Category Status"  class="form-control">
+                                            <label for="example-password">Brand Discription</label>
+                                            <textarea class="form-control" name="b_discription" id="exampleFormControlTextarea1" rows="10"></textarea>
+                                        </div>
+
+                                         <div class="form-group">
+                                            <label for="example-password">Brand Affilate Link</label>
+                                            <input type="text" name="b_affiliate_link" placeholder="Enter Affilate Link"  class="form-control">
                                         </div>
 
 
                                          <div class="form-group">
+                                            <label for="example-password">Brand Status</label>
+                                            <input type="text" name="b_status" placeholder="Enter Brand Status"  class="form-control">
+                                        </div>
+
+
+            <div class="form-group">
+                    <label for="example-password">Brand Logo</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="b_image" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+            </div>
+
+                        <div class="form-group">
                                             
 
+                            <label for="exampleFormControlSelect1">Select Category</label>
 
-
-                                            <label for="exampleFormControlSelect1">Select Category</label>
-                                            <select class="form-control" id="exampleFormControlSelect1">
-                                                <option>1</option>
-                                                
-                                            </select>
+                              <select class="form-control" name="cat_id">
                                         
-                                        </div>
+                                      <?php 
+                                           
+                                           foreach($results as $result){
+                                      ?>
+
+                                        <option value="<?php echo $result['cat_id']; ?>"><?php echo $result['cat_name']; ?></option>
+
+
+
+
+
+
+
+
+
+
+
+
+                                     <?php  }  ?>
+                                                
+                                </select>
+                                        
+                         </div>
                                                 
                                        <div class="form-group">
-                                          <button type="submit" class="btn btn-primary waves-effect waves-light">Add Brand  &nbsp;   <i class="fas fa-forward"></i></button>
+                                          <button type="submit" name="btnsubmit" class="btn btn-primary waves-effect waves-light">Add Brand  &nbsp;   <i class="fas fa-forward"></i></button>
                                         </div>
                                        
                                         
