@@ -55,7 +55,7 @@ include_once('CategoryController.php');
                                                 ?>
 
                                                 <tr>
-                                                    <th scope="row">1</th>
+                                                    <th scope="row"><?= $row['cat_id'] ?></th>
                                                     <td><?= $row['cat_name'] ?></td>
                                                     <td><?= $row['cat_status'] ?></td>
                                                     <td>

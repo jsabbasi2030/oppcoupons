@@ -1,6 +1,7 @@
 <?php session_start(); 
 include('db.php');
-include('CategoryController.php');
+include('SubCategoryController.php');
+include_once('CategoryController.php');
 ?>
 
 
@@ -26,9 +27,18 @@ include('CategoryController.php');
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Add Brand  <i class="fas fa-angle-double-right"></i> </h4>
-                                    
- <?php
+                                    <h4 class="card-title">Edit Brand  <i class="fas fa-angle-double-right"></i> </h4>
+        <?php
+
+                                            $categories = new CategoryController;
+                                             $results = $categories->index();
+
+                                         ?>
+
+
+
+
+  <?php
                     if(isset($_SESSION['message']))
                     {
                         echo "<h5>".$_SESSION['message']."</h5>";
@@ -38,32 +48,48 @@ include('CategoryController.php');
 
 
 
-                                        <?php
+                 <?php
+                        if(isset($_GET['id']))
+                        {
+                            $category_id =$_GET['id'];
+                            $category = new SubCategoryController;
+                            $result = $category->edit($category_id);
 
-                                            $categories = new CategoryController;
-                                             $results = $categories->index();
+                            if($result)
+                            {
+                                ?>
 
-                                         ?>
-                                    <form action="code_addsubcategory.php" method="POST" enctype="multipart/form-data">
+
+
+
+                                       
+                                    <form action="code_editsubcategory.php" method="POST" enctype="multipart/form-data">
+
+
+
+                                        <input type="hidden" value="<?=$result['b_id']?>" name="b_name" class="form-control" placeholder="Enter Brand Name">
+
+
+
                                         <div class="form-group">
                                             <label for="simpleinput">Brand Name</label>
-                                            <input type="text" name="b_name" class="form-control" placeholder="Enter Brand Name">
+                                            <input type="text" value="<?=$result['b_name']?>" name="b_name" class="form-control" placeholder="Enter Brand Name">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="example-password">Brand Discription</label>
-                                            <textarea class="form-control" name="b_discription" id="exampleFormControlTextarea1" rows="10"></textarea>
+                                            <textarea class="form-control" name="b_discription" id="exampleFormControlTextarea1" rows="10"><?=$result['b_discription']?></textarea>
                                         </div>
 
                                          <div class="form-group">
                                             <label for="example-password">Brand Affilate Link</label>
-                                            <input type="text" name="b_affiliate_link" placeholder="Enter Affilate Link"  class="form-control">
+                                            <input type="text" value="<?=$result['b_affiliate_link']?>"  name="b_affiliate_link" placeholder="Enter Affilate Link"  class="form-control">
                                         </div>
 
 
                                          <div class="form-group">
                                             <label for="example-password">Brand Status</label>
-                                            <input type="text" name="b_status" placeholder="Enter Brand Status"  class="form-control">
+                                            <input type="text" value="<?=$result['b_status']?>" name="b_status" placeholder="Enter Brand Status"  class="form-control">
                                         </div>
 
 
@@ -118,20 +144,31 @@ include('CategoryController.php');
                          </div>
                                                 
                                        <div class="form-group">
-                                          <button type="submit" name="btnsubmit" class="btn btn-primary waves-effect waves-light">Add Brand  &nbsp;   <i class="fas fa-forward"></i></button>
+                                          <button type="submit" name="btnsubmit" class="btn btn-primary waves-effect waves-light">Edit Brand  &nbsp;   <i class="fas fa-forward"></i></button>
                                         </div>
                                        
                                         
                                        
                                         
                                     </form>
-                                </div>
+                                
+
+                             <?php
+                            }
+                            else
+                            {
+                                echo "<h4>No Record Found</h4>";
+                            }
+                        }
+                        else
+                        {
+                            echo "<h4>Something Went Wront</h4>";
+                        }
+                        ?>
+                               </div>
                                 <!-- end card-body-->
                             </div>
                             <!-- end card -->
-
-                            
-
                            
 
                         </div> <!-- end col -->
@@ -144,20 +181,7 @@ include('CategoryController.php');
             </div>
             <!-- End Page-content -->
 
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            2020 © Lunoz.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-right d-none d-sm-block">
-                                Design & Develop by Myra
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            
 
         </div>
 

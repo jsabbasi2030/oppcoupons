@@ -1,4 +1,9 @@
-<?php    include("admin_header.php"); ?>
+<?php   
+include('db.php');
+ include("admin_header.php");
+
+include_once('SubCategoryController.php');
+ ?>
 
 
 
@@ -31,29 +36,83 @@
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th>#</th>
+                                                    <th>Brand Image</th>
                                                     <th>Brand Name</th>
                                                     <th>Brand Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+
+
+                                             <?php
+                                            $sub_categories = new SubCategoryController;
+                                             $result = $sub_categories->index();
+
+                                            if($result)
+                                             {
+                                             foreach($result as $row)
+                                               {
+                                                ?>
+
+
+
+
+
                                                 <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
+                                                    <th scope="row"><?php echo $row['b_id']; ?></th>
+
+
+                                                     <td>
+                                                         
+                                                  <img src="<?php echo 'uploads/'. $row['b_logo'] ?>" height="75px" width="120px">
+
+
+
+
+                                                     </td>
+
+
+
+                                                    <td><?php echo $row['b_name']; ?></td>
+                                                    <td><?php echo $row['b_status']; ?></td>
                                                     <td>
                                                     	
+
+
+
+
+                                      <a href="sub_edit.php?id=<?=$row['b_id'];?>">
                                                   <button type="button" class="btn btn-success waves-effect waves-light">Edit   <i class="mdi mdi-lead-pencil">  </i></button>
+
+                                       </a>
+
+
+
+
                                                   --
+
+
+                                                   <a href="sub_code_delete.php?id=<?=$row['b_id'];?>">  
 
                                                   <button type="button" class="btn btn-danger waves-effect waves-light">Delete  <i class="mdi mdi-close-thick"></i> </button>
                                               
-
+                                                   </a>
 
 
 
                                                     </td>
                                                 </tr>
+
+
+                                                 <?php
+                                            }
+                                        }
+                                        else
+                                        {
+                                            echo "No Record Found";
+                                        }
+                                    ?>
                                                 
                                             </tbody>
                                         </table>
